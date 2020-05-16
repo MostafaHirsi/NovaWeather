@@ -1,4 +1,4 @@
-package com.example.nova_weather;
+package com.nova.weather;
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity;
