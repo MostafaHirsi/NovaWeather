@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-
+import 'package:http/http.dart';
+import 'package:nova_weather/presenters/weather_presenter.dart';
+import 'package:nova_weather/providers/open_weather_provider.dart';
+import 'home_page.dart';
 import 'theme/colors.dart';
 
 void main() => runApp(MyApp());
@@ -9,6 +12,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     DateTime dateTime = DateTime.now();
     bool isDay = dateTime.hour < 21;
+    Client httpClientProvider = Client();
+    OpenWeatherProvider openWeatherProvider =
+        OpenWeatherProvider(httpClientProvider);
+    WeatherPresenter weatherPresenter = WeatherPresenter(openWeatherProvider);
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -26,19 +33,9 @@ class MyApp extends StatelessWidget {
           elevation: 0,
         ),
       ),
-      home: HomePage(),
+      home: HomePage(
+        presenter: weatherPresenter,
+      ),
     );
-  }
-}
-
-class HomePage extends StatefulWidget {
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold();
   }
 }
