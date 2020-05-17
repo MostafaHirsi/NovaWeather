@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:nova_weather/enums/weather_status.dart';
 import 'package:nova_weather/presenters/weather_presenter.dart';
 import 'package:nova_weather/views/weather_forecast_view.dart';
 
 import 'theme/colors.dart';
+import 'theme/loading_indicator.dart';
 
 class HomePage extends StatefulWidget {
   final WeatherPresenter presenter;
@@ -26,35 +28,43 @@ class _HomePageState extends State<HomePage> implements WeatherForecastView {
     return Scaffold(
       body: Container(
         decoration: buildBackgroundDecoration(),
-        child: isRefreshing()
-            ? Center(
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation(
-                    Colors.white,
-                  ),
-                ),
-              )
-            : buildOverallView(),
+        child: buildOverallView(),
       ),
     );
   }
 
   Widget buildOverallView() {
-    return hasData()
-        ? Center(
-            child: Text("DATA RETRIEVED"),
-          )
-        : buildPlaceHolder();
+    WeatherStatus weatherStatus = widget.presenter.weatherStatus;
+    switch (weatherStatus) {
+      case WeatherStatus.WeatherStatusSuccess:
+        return Center(
+          child: Text("DATA RETRIEVED"),
+        );
+        break;
+      case WeatherStatus.WeatherStatusLoading:
+        return LoadingIndicator();
+        break;
+      case WeatherStatus.WeatherStatusFailed:
+        return buildPlaceHolder(isError: true);
+        break;
+      case WeatherStatus.WeatherStatusInitial:
+        return buildPlaceHolder();
+      default:
+    }
   }
 
-  GestureDetector buildPlaceHolder() {
+  GestureDetector buildPlaceHolder({bool isError = false}) {
     return GestureDetector(
-      onTap: widget.presenter.retrieveWeatherUpdate,
+      onTap: () {
+        widget.presenter.retrieveWeatherUpdate();
+      },
       child: Container(
         alignment: Alignment.center,
         color: Colors.transparent,
         constraints: BoxConstraints.expand(),
-        child: Text("Tap to load weather sfsdfa data."),
+        child: Text(!isError
+            ? "Tap to load weather data."
+            : "Could not retrieve weather info, please try again"),
       ),
     );
   }
@@ -79,10 +89,4 @@ class _HomePageState extends State<HomePage> implements WeatherForecastView {
   void updateWeatherForecast() {
     setState(() {});
   }
-
-  @override
-  bool hasData() => widget.presenter.weatherForecastModel != null;
-
-  @override
-  bool isRefreshing() => widget.presenter.isRefreshing;
 }
