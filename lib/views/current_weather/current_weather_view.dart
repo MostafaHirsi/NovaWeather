@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nova_weather/models/current_forecast.dart';
-import 'package:nova_weather/views/weather_icon.dart';
+import 'package:nova_weather/models/location_model.dart';
+import 'package:nova_weather/views/common/weather_icon.dart';
 
 class CurrentWeatherView extends StatelessWidget {
   final CurrentForecastModel currentForecastModel;
+  final LocationModel locationModel;
   final Function updateWeather;
 
   const CurrentWeatherView(
-      {Key key, this.currentForecastModel, this.updateWeather})
+      {Key key,
+      this.currentForecastModel,
+      this.updateWeather,
+      this.locationModel})
       : super(key: key);
 
   @override
@@ -24,11 +29,11 @@ class CurrentWeatherView extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              buildHeadlineLabel('London', context),
+              buildHeadlineLabel(locationModel.locationName, context),
               buildRefreshButton(),
             ],
           ),
-          buildHeadlineLabel('United Kingdom', context),
+          buildHeadlineLabel(locationModel.country, context),
           buildDateTimeLabel(context),
           Spacer(),
           buildHeadlineLabel('Today', context, center: true),

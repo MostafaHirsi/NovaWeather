@@ -1,20 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:nova_weather/injector.dart';
+import 'package:http/http.dart';
+import 'package:nova_weather/models/location_model.dart';
 import 'package:nova_weather/presenters/weather_presenter.dart';
 import 'home_page.dart';
+import 'providers/open_weather_provider.dart';
+
+// Other locations to play with
+// "Melbourne", "Australia", 37.8136, 144.9631
+// "New York", "United State", 40.7128, 74.0060
 
 void main() {
+  Client httpClient = Client();
+  OpenWeatherProvider openWeatherProvider = OpenWeatherProvider(httpClient);
+  WeatherPresenter weatherPresenter = WeatherPresenter(openWeatherProvider);
+  weatherPresenter.locationModel =
+      new LocationModel("London", "United Kingdom", 51.5074, 0.1278);
   runApp(
-    Injector(
-      child: MyApp(),
+    MyApp(
+      weatherPresenter: weatherPresenter,
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
+  final WeatherPresenter weatherPresenter;
+
+  const MyApp({Key key, this.weatherPresenter}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    WeatherPresenter weatherPresenter = Injector.of(context).weatherPresenter;
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(

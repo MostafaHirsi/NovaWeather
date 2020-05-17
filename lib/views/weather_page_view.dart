@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:nova_weather/models/daily_forecast.dart';
+import 'package:nova_weather/models/location_model.dart';
 import 'package:nova_weather/models/weather_forecast.dart';
 import 'package:nova_weather/views/daily_weather/daily_weather_view.dart';
 
 import 'current_weather/current_weather_view.dart';
 
-class WeatherDataView extends StatelessWidget {
+class WeatherPageView extends StatelessWidget {
   final WeatherForecastModel weatherForecastModel;
+  final LocationModel locationModel;
   final Function updateWeather;
 
-  WeatherDataView({Key key, this.weatherForecastModel, this.updateWeather})
+  WeatherPageView(
+      {Key key,
+      this.weatherForecastModel,
+      this.updateWeather,
+      this.locationModel})
       : super(key: key);
 
   @override
@@ -25,6 +31,7 @@ class WeatherDataView extends StatelessWidget {
           flex: 60,
           child: CurrentWeatherView(
             currentForecastModel: weatherForecastModel.current,
+            locationModel: locationModel,
             updateWeather: updateWeather,
           ),
         ),

@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:nova_weather/enums/weather_status.dart';
 import 'package:nova_weather/presenters/weather_presenter.dart';
-import 'package:nova_weather/views/weather_forecast_view.dart';
 
-import 'theme/colors.dart';
+import 'interfaces/weather_forecast_view.dart';
 import 'theme/loading_indicator.dart';
-import 'views/weather_data_view.dart';
+import 'views/weather_page_view.dart';
 
 class HomePage extends StatefulWidget {
   final WeatherPresenter presenter;
@@ -17,7 +16,8 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> implements WeatherForecastView {
+class _HomePageState extends State<HomePage>
+    implements WeatherForecastViewInterface {
   @override
   void initState() {
     super.initState();
@@ -39,9 +39,10 @@ class _HomePageState extends State<HomePage> implements WeatherForecastView {
     WeatherStatus weatherStatus = widget.presenter.weatherStatus;
     switch (weatherStatus) {
       case WeatherStatus.WeatherStatusSuccess:
-        return WeatherDataView(
+        return WeatherPageView(
           weatherForecastModel: widget.presenter.weatherForecastModel,
           updateWeather: widget.presenter.retrieveWeatherUpdate,
+          locationModel: widget.presenter.locationModel,
         );
         break;
       case WeatherStatus.WeatherStatusLoading:
@@ -51,8 +52,8 @@ class _HomePageState extends State<HomePage> implements WeatherForecastView {
         return buildPlaceHolder(isError: true);
         break;
       case WeatherStatus.WeatherStatusInitial:
-        return buildPlaceHolder();
       default:
+        return buildPlaceHolder();
     }
   }
 

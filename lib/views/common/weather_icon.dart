@@ -12,7 +12,7 @@ class WeatherIcon extends StatelessWidget {
     String weatherIcon = weatherDescriptionModel.icon;
     return Container(
       child: Image.asset(
-        'assets/icons/${weatherIcon}@2x.png',
+        'assets/icons/$weatherIcon@2x.png',
         filterQuality: FilterQuality.high,
         scale: scale,
       ),

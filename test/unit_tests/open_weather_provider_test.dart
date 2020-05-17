@@ -15,7 +15,7 @@ import '../mocks/mock_client.dart';
 
 main() {
   group('Open Weather Model Test: ', () {
-    String apiKey = '0ca72a96d8d54ccc8a9dbe1c855191f1';
+    String apiKey = 'test_api_key';
     double mockLat = 33.441792;
     double mockLong = -94.037689;
 
@@ -151,7 +151,6 @@ main() {
         () async {
       expect(
         () async => await openWeatherProvider.getOneCall(errorLat, errorLong),
-        // throwsA(comparisonException),
         throwsA(
           predicate(
               (e) => e is HttpException && e.message == 'invalid location'),

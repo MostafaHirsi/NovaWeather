@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nova_weather/models/daily_forecast.dart';
-import 'package:nova_weather/views/weather_icon.dart';
+import 'package:nova_weather/views/common/weather_icon.dart';
 
 class DailyForecastView extends StatelessWidget {
   final DailyForecastModel dailyForecastModel;
