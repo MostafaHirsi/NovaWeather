@@ -5,7 +5,10 @@ import 'package:nova_weather/views/weather_icon.dart';
 
 class CurrentWeatherView extends StatelessWidget {
   final CurrentForecastModel currentForecastModel;
-  const CurrentWeatherView({Key key, this.currentForecastModel})
+  final Function updateWeather;
+
+  const CurrentWeatherView(
+      {Key key, this.currentForecastModel, this.updateWeather})
       : super(key: key);
 
   @override
@@ -18,8 +21,13 @@ class CurrentWeatherView extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Spacer(),
-          buildHeadlineLabel('London', context),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              buildHeadlineLabel('London', context),
+              buildRefreshButton(),
+            ],
+          ),
           buildHeadlineLabel('United Kingdom', context),
           buildDateTimeLabel(context),
           Spacer(),
@@ -29,6 +37,18 @@ class CurrentWeatherView extends StatelessWidget {
               center: true),
           Spacer(),
         ],
+      ),
+    );
+  }
+
+  Widget buildRefreshButton() {
+    return Container(
+      child: IconButton(
+        icon: Icon(
+          Icons.refresh,
+          color: Colors.white,
+        ),
+        onPressed: updateWeather,
       ),
     );
   }

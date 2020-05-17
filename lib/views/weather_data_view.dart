@@ -7,9 +7,10 @@ import 'current_weather/current_weather_view.dart';
 
 class WeatherDataView extends StatelessWidget {
   final WeatherForecastModel weatherForecastModel;
-  final ScrollController controller = ScrollController();
+  final Function updateWeather;
 
-  WeatherDataView({Key key, this.weatherForecastModel}) : super(key: key);
+  WeatherDataView({Key key, this.weatherForecastModel, this.updateWeather})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +18,14 @@ class WeatherDataView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
+        Spacer(
+          flex: 8,
+        ),
         Flexible(
-          flex: 68,
+          flex: 60,
           child: CurrentWeatherView(
             currentForecastModel: weatherForecastModel.current,
+            updateWeather: updateWeather,
           ),
         ),
         Flexible(
@@ -28,7 +33,7 @@ class WeatherDataView extends StatelessWidget {
           child: buildDailyForecastList(context),
         ),
         Spacer(
-          flex: 10,
+          flex: 12,
         ),
       ],
     );
@@ -66,7 +71,6 @@ class WeatherDataView extends StatelessWidget {
     return Flexible(
       child: ListView.builder(
         itemCount: 5,
-        controller: controller,
         scrollDirection: Axis.horizontal,
         shrinkWrap: true,
         itemBuilder: (listContext, index) {
@@ -80,7 +84,7 @@ class WeatherDataView extends StatelessWidget {
     );
   }
 
-  Container buildDailyForecastLabel(BuildContext context) {
+  Widget buildDailyForecastLabel(BuildContext context) {
     return Container(
       alignment: Alignment.centerLeft,
       margin: EdgeInsets.only(left: 15, top: 8, bottom: 15),

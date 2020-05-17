@@ -41,6 +41,7 @@ class _HomePageState extends State<HomePage> implements WeatherForecastView {
       case WeatherStatus.WeatherStatusSuccess:
         return WeatherDataView(
           weatherForecastModel: widget.presenter.weatherForecastModel,
+          updateWeather: widget.presenter.retrieveWeatherUpdate,
         );
         break;
       case WeatherStatus.WeatherStatusLoading:
