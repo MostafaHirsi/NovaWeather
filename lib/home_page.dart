@@ -6,6 +6,7 @@ import 'package:nova_weather/views/weather_forecast_view.dart';
 
 import 'theme/colors.dart';
 import 'theme/loading_indicator.dart';
+import 'views/weather_data_view.dart';
 
 class HomePage extends StatefulWidget {
   final WeatherPresenter presenter;
@@ -21,6 +22,7 @@ class _HomePageState extends State<HomePage> implements WeatherForecastView {
   void initState() {
     super.initState();
     widget.presenter.forecastView = this;
+    widget.presenter.retrieveWeatherUpdate();
   }
 
   @override
@@ -37,8 +39,8 @@ class _HomePageState extends State<HomePage> implements WeatherForecastView {
     WeatherStatus weatherStatus = widget.presenter.weatherStatus;
     switch (weatherStatus) {
       case WeatherStatus.WeatherStatusSuccess:
-        return Center(
-          child: Text("DATA RETRIEVED"),
+        return WeatherDataView(
+          weatherForecastModel: widget.presenter.weatherForecastModel,
         );
         break;
       case WeatherStatus.WeatherStatusLoading:

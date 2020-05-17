@@ -12,7 +12,7 @@ class OpenWeatherProvider {
 
   Future<WeatherForecastModel> getOneCall(double lat, double long) async {
     Response response = await client.get(
-        'https://api.openweathermap.org/data/2.5/onecall?lat=$lat&lon=$long&exclude=minutely,hourly&appid=$apiKey');
+        'https://api.openweathermap.org/data/2.5/onecall?lat=$lat&lon=$long&exclude=minutely,hourly&units=metric&appid=$apiKey');
     if (response.statusCode >= 200 && response.statusCode < 300) {
       Map<String, dynamic> responseBody = jsonDecode(response.body);
       WeatherForecastModel oneCallModel =

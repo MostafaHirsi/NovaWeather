@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
+import 'package:nova_weather/injector.dart';
 import 'package:nova_weather/presenters/weather_presenter.dart';
-import 'package:nova_weather/providers/open_weather_provider.dart';
 import 'home_page.dart';
-import 'theme/colors.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  runApp(
+    Injector(
+      child: MyApp(),
+    ),
+  );
+}
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Client httpClientProvider = Client();
-    OpenWeatherProvider openWeatherProvider =
-        OpenWeatherProvider(httpClientProvider);
-    WeatherPresenter weatherPresenter = WeatherPresenter(openWeatherProvider);
+    WeatherPresenter weatherPresenter = Injector.of(context).weatherPresenter;
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
