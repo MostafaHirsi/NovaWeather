@@ -42,7 +42,7 @@ class CurrentWeatherView extends StatelessWidget {
             weatherDescriptionModel: currentForecastModel.weather.first,
           ),
           buildHeadlineLabel(
-            '${currentForecastModel.temp.day} °',
+            '${currentForecastModel.temp.day.round()} °',
             context,
             bold: true,
           ),
